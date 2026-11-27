@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Redact before you paste</title>
+<meta name="description" content="Replace names, phone numbers, TFNs, ABNs, Medicare numbers and other client details with placeholders before pasting text into an AI tool, then restore them in the reply. Runs in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231f3a52'/%3E%3Crect x='6' y='10' width='20' height='4' fill='%23fff'/%3E%3Crect x='6' y='18' width='13' height='4' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+
+<header class="bar">
+  <span class="product">Redact before you paste</span>
+  <span class="bar-note">Runs in your browser. Nothing is uploaded or saved.</span>
+</header>
+
+<main>
+  <p class="lead">Replaces names, phone numbers, tax file numbers, ABNs, Medicare numbers and other client details with placeholders such as <mark class="ph g-who">[PERSON 1]</mark>, so the text can go into ChatGPT, Copilot or another AI tool. Paste the reply into the second box to put the details back.</p>
+
+  <section class="pair" aria-label="Redact">
+    <div class="col">
+      <div class="col-head">
+        <label for="input">Original text</label>
+        <span class="buttons">
+          <button id="example" type="button">Load example</button>
+          <button id="clear" type="button">Clear</button>
+        </span>
+      </div>
+      <textarea id="input" spellcheck="false" placeholder="Paste an email, letter or file note."></textarea>
+    </div>
+    <div class="col">
+      <div class="col-head">
+        <span class="col-title">Redacted text</span>
+        <span class="buttons">
+          <button id="copy" type="button" class="primary" disabled>Copy</button>
+        </span>
+      </div>
+      <div id="output" class="box" tabindex="0" aria-live="polite" aria-label="Redacted text"></div>
+    </div>
+  </section>
+
+  <section class="detected" aria-labelledby="detected-title">
+    <div class="section-head">
+      <h2 id="detected-title">Detected</h2>
+      <span id="count" class="count"></span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th scope="col" class="c-check">Redact</th><th scope="col">Placeholder</th><th scope="col">Type</th><th scope="col">Original</th></tr>
+        </thead>
+        <tbody id="findings"></tbody>
+      </table>
+    </div>
+    <p class="hint">Untick a row to leave it in the text. Read the redacted text before you paste it: names are only detected after a title, greeting, label or sign-off.</p>
+
+    <details class="settings" id="settings">
+      <summary>Settings</summary>
+      <fieldset>
+        <legend>Detect</legend>
+        <div class="types" id="types"></div>
+      </fieldset>
+      <label class="custom-label" for="custom">Always redact (one per line, for example client or company names)</label>
+      <textarea id="custom" rows="3" spellcheck="false" placeholder="Citizen Consulting"></textarea>
+    </details>
+  </section>
+
+  <section class="pair" aria-label="Restore">
+    <div class="col">
+      <div class="col-head">
+        <label for="reply">AI reply</label>
+      </div>
+      <textarea id="reply" spellcheck="false" placeholder="Paste a reply that contains placeholders such as [PERSON 1]."></textarea>
+    </div>
+    <div class="col">
+      <div class="col-head">
+        <span class="col-title">Reply with details restored</span>
+        <span class="buttons">
+          <button id="copy-restored" type="button" class="primary" disabled>Copy</button>
+        </span>
+      </div>
+      <div id="restored" class="box" tabindex="0" aria-live="polite" aria-label="Reply with details restored"></div>
+    </div>
+  </section>
+
+  <section class="notes" aria-labelledby="notes-title">
+    <h2 id="notes-title">Privacy and limits</h2>
+    <ul>
+      <li>Everything happens in this tab. The page's Content Security Policy blocks network requests once it has loaded.</li>
+      <li>Nothing is stored. Closing the tab discards your text and the list of placeholders.</li>
+      <li>TFN, ABN, ACN, Medicare and card numbers are only redacted if they pass their check digits, so invoice numbers and amounts stay as they are.</li>
+      <li>Names are detected after a title (Mrs, Dr), a greeting (Dear, Hi), a label (Client:, From:) or a sign-off, and then wherever else they appear. Other names can be missed; add them under Settings.</li>
+      <li>Australian formats only.</li>
+      <li>Browser extensions with access to every site can read this page.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="foot">Abdulrahman, Melbourne, 2026</footer>
+
+</body>
+</html>
